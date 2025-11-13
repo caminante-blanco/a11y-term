@@ -1,0 +1,9 @@
+[workspace]
+members = [
+    "a11y-vt100",
+    "a11y-term",
+    "a11y-tui",
+    "plod"
+]
+resolver = "2"
+

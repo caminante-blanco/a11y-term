@@ -1,0 +1,7 @@
+[package]
+name = "plod"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+a11y-tui = {path = "../a11y-tui"}

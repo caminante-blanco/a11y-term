@@ -1,0 +1,14 @@
+[package]
+name = "a11y-term"
+version = "0.1.0"
+edition = "2024"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+a11y-vt100 = {path = "../a11y-vt100"}
+serde = "1.0.228"
+wasm-bindgen = "0.2.105"
+web-sys = { version = "0.3", features = ["Document", "Window", "Element", "HtmlElement", "Performance"] }
+
