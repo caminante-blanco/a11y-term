@@ -1,6 +1,9 @@
+use crate::a11y::A11yNode;
+use std::rc::Rc;
 use unicode_width::UnicodeWidthChar as _;
 
 // chosen to make the size of the cell struct 32 bytes
+// Now since the addition of aria_attrs, this is 40 bytes
 const CONTENT_BYTES: usize = 22;
 
 const IS_WIDE: u8 = 0b1000_0000;
@@ -13,8 +16,9 @@ pub struct Cell {
     contents: [u8; CONTENT_BYTES],
     len: u8,
     attrs: crate::attrs::Attrs,
+    pub aria_attrs: Option<Rc<A11yNode>>,
 }
-const _: () = assert!(std::mem::size_of::<Cell>() == 32);
+const _: () = assert!(std::mem::size_of::<Cell>() == 40);
 
 impl PartialEq<Self> for Cell {
     fn eq(&self, other: &Self) -> bool {
@@ -22,6 +26,9 @@ impl PartialEq<Self> for Cell {
             return false;
         }
         if self.attrs != other.attrs {
+            return false;
+        }
+        if self.aria_attrs != other.aria_attrs {
             return false;
         }
         let len = self.len();
@@ -35,6 +42,7 @@ impl Cell {
             contents: Default::default(),
             len: 0,
             attrs: crate::attrs::Attrs::default(),
+            aria_attrs: None,
         }
     }
 
@@ -44,6 +52,7 @@ impl Cell {
 
     pub(crate) fn set(&mut self, c: char, a: crate::attrs::Attrs) {
         self.len = 0;
+        self.aria_attrs = None;
         self.append_char(0, c);
         // strings in this context should always be an arbitrary character
         // followed by zero or more zero-width characters, so we should only
@@ -76,6 +85,7 @@ impl Cell {
     pub(crate) fn clear(&mut self, attrs: crate::attrs::Attrs) {
         self.len = 0;
         self.attrs = attrs;
+        self.aria_attrs = None;
     }
 
     /// Returns the text contents of the cell.

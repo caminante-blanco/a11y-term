@@ -21,14 +21,14 @@ fn vb() {
         vb: usize,
     }
 
-    impl vt100::Callbacks for State {
-        fn visual_bell(&mut self, _: &mut vt100::Screen) {
+    impl a11y_vt100::Callbacks for State {
+        fn visual_bell(&mut self, _: &mut a11y_vt100::Screen) {
             self.vb += 1;
         }
     }
 
     let mut parser =
-        vt100::Parser::new_with_callbacks(24, 80, 0, State { vb: 0 });
+        a11y_vt100::Parser::new_with_callbacks(24, 80, 0, State { vb: 0 });
     assert_eq!(parser.callbacks().vb, 0);
 
     let screen = parser.screen().clone();
@@ -64,7 +64,7 @@ fn decsc() {
 
 #[test]
 fn decsc_resize() {
-    let mut parser = vt100::Parser::new(24, 80, 0);
+    let mut parser = a11y_vt100::Parser::new(24, 80, 0);
     parser.process(b"foo\x1b[20;70Hbar\x1b7");
     assert_eq!(parser.screen().contents(), "foo\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n                                                                     bar");
     assert_eq!(parser.screen().cursor_position(), (19, 72));

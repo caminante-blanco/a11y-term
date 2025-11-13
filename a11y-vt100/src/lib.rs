@@ -12,13 +12,13 @@
 //! # Synopsis
 //!
 //! ```
-//! let mut parser = vt100::Parser::new(24, 80, 0);
+//! let mut parser = a11y_vt100::Parser::new(24, 80, 0);
 //!
 //! let screen = parser.screen().clone();
 //! parser.process(b"this text is \x1b[31mRED\x1b[m");
 //! assert_eq!(
 //!     parser.screen().cell(0, 13).unwrap().fgcolor(),
-//!     vt100::Color::Idx(1),
+//!     a11y_vt100::Color::Idx(1),
 //! );
 //!
 //! let screen = parser.screen().clone();
@@ -47,6 +47,7 @@
 #![allow(clippy::too_many_lines)]
 #![allow(clippy::type_complexity)]
 
+mod a11y;
 mod attrs;
 mod callbacks;
 mod cell;

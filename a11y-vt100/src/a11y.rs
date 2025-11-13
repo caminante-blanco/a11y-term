@@ -1,6 +1,6 @@
+use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use std::rc::Rc;
-use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Debug, PartialEq, Eq, Deserialize, Serialize)]
 pub struct CustomOSC {
@@ -11,7 +11,8 @@ pub struct CustomOSC {
 
 #[derive(Clone, Debug, PartialEq, Eq, Deserialize, Serialize)]
 pub struct A11yNode {
-    pub data: CustomOsc,
+    pub data: CustomOSC,
 
-    pub 
+    #[serde(skip)]
+    pub parent: Option<Rc<A11yNode>>,
 }
