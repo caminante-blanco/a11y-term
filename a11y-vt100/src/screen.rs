@@ -1,5 +1,7 @@
 use crate::term::BufWrite as _;
 use unicode_width::UnicodeWidthChar as _;
+use std::rc::Rc;
+use crate::a11y::A11yNode;
 
 const MODE_APPLICATION_KEYPAD: u8 = 0b0000_0001;
 const MODE_APPLICATION_CURSOR: u8 = 0b0000_0010;
@@ -58,7 +60,8 @@ pub struct Screen {
 
     attrs: crate::attrs::Attrs,
     saved_attrs: crate::attrs::Attrs,
-
+    pub(crate) active_a11y_data: Option<Rc<A11yNode>>,
+    
     modes: u8,
     mouse_protocol_mode: MouseProtocolMode,
     mouse_protocol_encoding: MouseProtocolEncoding,
@@ -77,6 +80,7 @@ impl Screen {
 
             attrs: crate::attrs::Attrs::default(),
             saved_attrs: crate::attrs::Attrs::default(),
+            active_a11y_data: None,
 
             modes: 0,
             mouse_protocol_mode: MouseProtocolMode::default(),
